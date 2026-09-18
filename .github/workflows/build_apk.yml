@@ -1,4 +1,4 @@
-name: Build & Release Flutter APK
+name: Build Native Android APK
 
 on:
   push:
@@ -9,46 +9,35 @@ on:
 
 jobs:
   build:
-    name: Build Flutter Android APK
+    name: Build Android APK
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Java / JDK 17
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-
-      - name: Ultimate Universal Build
+      - name: Grant Execute Permission
         run: |
-          # 1. البحث عن ملف التشغيل الرئيسي تلقائياً
-          TARGET_FILE=$(find . -name "main.dart" -not -path "*/.*" | head -n 1)
-          
-          if [ -z "$TARGET_FILE" ]; then
-            TARGET_FILE=$(find . -name "*.dart" -not -path "*/.*" | head -n 1)
-          fi
-          
-          echo "Found Target File: $TARGET_FILE"
-          
-          # 2. تحديد مجلد المشروع وتجهيز الاعتمادات
-          PROJ_DIR=$(dirname $(dirname "$TARGET_FILE"))
-          cd "$PROJ_DIR"
-          
-          flutter pub get
-          
-          # 3. بناء ملف الـ APK وتحديده بدقة
-          flutter build apk --debug -t "$TARGET_FILE"
+          find . -name "gradlew" -exec chmod +x {} \;
 
-      - name: Upload Debug APK Artifact
+      - name: Build Debug APK
+        run: |
+          if [ -f "./gradlew" ]; then
+            ./gradlew assembleDebug --no-daemon -x test
+          elif [ -f "./app/gradlew" ]; then
+            cd app && ./gradlew assembleDebug --no-daemon -x test
+          else
+            gradle assembleDebug --no-daemon -x test
+          fi
+
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Yalla-Meshwar-APK
-          path: "**/build/app/outputs/flutter-apk/*.apk"
+          path: "**/build/outputs/apk/debug/*.apk"
