@@ -1,4 +1,4 @@
-name: Build Flutter APK Final
+name: Build & Release Flutter APK
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up Java / JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -27,19 +27,25 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Locate Main and Build
+      - name: Ultimate Universal Build
         run: |
-          MAIN_FILE=$(find . -name "main.dart" -not -path "*/.*" | head -n 1)
-          if [ -n "$MAIN_FILE" ]; then
-            ROOT_DIR=$(dirname $(dirname "$MAIN_FILE"))
-            cd "$ROOT_DIR"
-            flutter pub get
-            flutter build apk --debug
-          else
-            cd app
-            flutter pub get
-            flutter build apk --debug
+          # 1. البحث عن ملف التشغيل الرئيسي تلقائياً
+          TARGET_FILE=$(find . -name "main.dart" -not -path "*/.*" | head -n 1)
+          
+          if [ -z "$TARGET_FILE" ]; then
+            TARGET_FILE=$(find . -name "*.dart" -not -path "*/.*" | head -n 1)
           fi
+          
+          echo "Found Target File: $TARGET_FILE"
+          
+          # 2. تحديد مجلد المشروع وتجهيز الاعتمادات
+          PROJ_DIR=$(dirname $(dirname "$TARGET_FILE"))
+          cd "$PROJ_DIR"
+          
+          flutter pub get
+          
+          # 3. بناء ملف الـ APK وتحديده بدقة
+          flutter build apk --debug -t "$TARGET_FILE"
 
       - name: Upload Debug APK Artifact
         uses: actions/upload-artifact@v4
