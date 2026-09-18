@@ -28,20 +28,26 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Get Dependencies
+      - name: Build APK Automatic Search
         run: |
-          if [ -d "app" ]; then cd app; fi
-          flutter pub get
-
-      - name: Build APK
-        run: |
-          if [ -d "app" ]; then cd app; fi
-          flutter build apk --debug
+          if [ -f "lib/main.dart" ]; then
+            flutter pub get
+            flutter build apk --debug
+          elif [ -f "app/lib/main.dart" ]; then
+            cd app
+            flutter pub get
+            flutter build apk --debug
+          else
+            echo "Searching for main.dart..."
+            MAIN_PATH=$(find . -name "main.dart" -not -path "*/.*" | head -n 1)
+            PROJ_DIR=$(dirname $(dirname "$MAIN_PATH"))
+            cd "$PROJ_DIR"
+            flutter pub get
+            flutter build apk --debug
+          fi
 
       - name: Upload Debug APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Yalla-Meshwar-APK
-          path: |
-            build/app/outputs/flutter-apk/app-debug.apk
-            app/build/app/outputs/flutter-apk/app-debug.apk
+          path: "**/build/app/outputs/flutter-apk/*.apk"
