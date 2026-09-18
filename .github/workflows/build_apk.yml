@@ -28,23 +28,21 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Build APK Automatic Search
+      - name: Auto-Detect Project & Build APK
         run: |
-          if [ -f "lib/main.dart" ]; then
-            flutter pub get
-            flutter build apk --debug
-          elif [ -f "app/lib/main.dart" ]; then
-            cd app
-            flutter pub get
-            flutter build apk --debug
-          else
-            echo "Searching for main.dart..."
-            MAIN_PATH=$(find . -name "main.dart" -not -path "*/.*" | head -n 1)
-            PROJ_DIR=$(dirname $(dirname "$MAIN_PATH"))
-            cd "$PROJ_DIR"
-            flutter pub get
-            flutter build apk --debug
+          # البحث عن مجلد المشروع الذكي
+          TARGET_FILE=$(find . -name "main.dart" -not -path "*/.*" | head -n 1)
+          if [ -z "$TARGET_FILE" ]; then
+            echo "Searching for any .dart file..."
+            TARGET_FILE=$(find . -name "*.dart" -not -path "*/.*" | head -n 1)
           fi
+          
+          PROJ_DIR=$(dirname $(dirname "$TARGET_FILE"))
+          echo "Building in directory: $PROJ_DIR"
+          cd "$PROJ_DIR"
+          
+          flutter pub get
+          flutter build apk --debug
 
       - name: Upload Debug APK Artifact
         uses: actions/upload-artifact@v4
