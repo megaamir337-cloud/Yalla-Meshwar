@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build Flutter APK Final
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: Build Native Android APK
+    name: Build Flutter Android APK
     runs-on: ubuntu-latest
 
     steps:
@@ -21,23 +21,28 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'gradle'
 
-      - name: Build APK Flexible
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Locate Main and Build
         run: |
-          if [ -f "./gradlew" ]; then
-            chmod +x gradlew
-            ./gradlew assembleDebug --stacktrace
-          elif [ -f "./app/gradlew" ]; then
-            cd app
-            chmod +x gradlew
-            ./gradlew assembleDebug --stacktrace
+          MAIN_FILE=$(find . -name "main.dart" -not -path "*/.*" | head -n 1)
+          if [ -n "$MAIN_FILE" ]; then
+            ROOT_DIR=$(dirname $(dirname "$MAIN_FILE"))
+            cd "$ROOT_DIR"
+            flutter pub get
+            flutter build apk --debug
           else
-            gradle assembleDebug --stacktrace
+            cd app
+            flutter pub get
+            flutter build apk --debug
           fi
 
-      - name: Upload Debug APK
+      - name: Upload Debug APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Yalla-Meshwar-APK
-          path: "**/build/outputs/apk/debug/*.apk"
+          path: "**/build/app/outputs/flutter-apk/*.apk"
