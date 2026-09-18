@@ -1,0 +1,32 @@
+name: yalla_meshwar
+description: "يلا مشوار - تطبيق حجز وتوصيل الرحلات"
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.16.0
+  google_maps_flutter: ^2.5.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  # إضافة مكتبة توليد الأيقونات
+  flutter_launcher_icons: ^0.14.4
+
+# إعدادات أيقونة التطبيق
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/app_icon.png"
+  min_sdk_android: 21
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icon/app_icon.png

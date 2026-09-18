@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1017085919431",
+    "project_id": "yalla-meshwar-40400",
+    "storage_bucket": "yalla-meshwar-40400.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017085919431:android:05606ad82c48f4a95fbee2",
+        "android_client_info": {
+          "package_name": "com.yallameshwar.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAB-THeF09D5iKSuO0lu8v1mLP4e5Lk-mQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

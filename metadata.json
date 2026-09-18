@@ -1,0 +1,6 @@
+{
+  "name": "يلا مشوار",
+  "description": "تطبيق يلا مشوار لحجز الرحلات والتوصيل في مصر (توك توك، سكوتر، ملاكي) مع نظام أمان متكامل ودعم كباتن.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

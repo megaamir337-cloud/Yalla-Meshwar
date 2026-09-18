@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">يلا مشوار</string>
+    <string name="app_slogan">مشوارك أسهل وأوفر مع يلا مشوار</string>
+    <string name="role_user">راكب</string>
+    <string name="role_captain">كابتن</string>
+    <string name="role_guest">زائر</string>
+    <string name="phone_hint">رقم الهاتف (مصر)</string>
+    <string name="captain_id_front">بطاقة الرقم القومي (الوجه)</string>
+    <string name="captain_id_back">بطاقة الرقم القومي (الظهر)</string>
+    <string name="captain_license">رخصة القيادة السارية</string>
+    <string name="captain_selfie">صورة شخصية حديثة (سيلفي)</string>
+    <string name="btn_login_register">دخول / تسجيل</string>
+    <string name="choose_service">اختر وسيلة التوصيل:</string>
+    <string name="service_toktok">توك توك</string>
+    <string name="service_scooter">سكوتر</string>
+    <string name="service_malaki">ملاكي</string>
+    <string name="sub_orders">طلبات وتوصيل</string>
+    <string name="sub_rides">مشاوير سريعة</string>
+    <string name="sub_travel">سفر بين المحافظات</string>
+    <string name="sub_weddings">مناسبات وأفراح</string>
+    <string name="sub_airport">مشاوير المطار</string>
+    <string name="pay_cash">كاش (نقداً)</string>
+    <string name="pay_vodafone">فودافون كاش</string>
+    <string name="order_now">يلا مشوار الآن</string>
+    <string name="safety_guide_title">دليل الأمان والطوارئ</string>
+    <string name="safety_guide_desc">جميع الرحلات مراقبة ومحمية بنظام أمني متكامل وربط مباشر بشرطة النجدة 122.</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="admin_dashboard">لوحة تحكم الإدارة</string>
+</resources>
