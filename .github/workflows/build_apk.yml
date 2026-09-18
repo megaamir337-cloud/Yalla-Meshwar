@@ -29,13 +29,19 @@ jobs:
           cache: true
 
       - name: Get Dependencies
-        run: flutter pub get
+        run: |
+          if [ -d "app" ]; then cd app; fi
+          flutter pub get
 
       - name: Build APK
-        run: flutter build apk --debug
+        run: |
+          if [ -d "app" ]; then cd app; fi
+          flutter build apk --debug
 
       - name: Upload Debug APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Yalla-Meshwar-APK
-          path: build/app/outputs/flutter-apk/app-debug.apk
+          path: |
+            build/app/outputs/flutter-apk/app-debug.apk
+            app/build/app/outputs/flutter-apk/app-debug.apk
